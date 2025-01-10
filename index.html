@@ -1,0 +1,478 @@
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <title>Carreira Tech</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif;
+            background-color: #D6F54F;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .filter {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .filter button {
+            padding: 10px 20px;
+            background: #263C18;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .filter button:hover {
+            background: #263C11;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #263C18;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #263C11;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: left;
+            word-wrap: break-word;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        td.actions-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        td.actions-buttons button {
+            margin: 0;
+        }
+
+        .form-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .form-popup.active {
+            display: block;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .form-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .actions-buttons button {
+            margin-right: 10px;
+        }
+
+        .show{
+            background-color: #263C18;
+            color: white;
+        }
+        .nav-item a{
+            color: white; 
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar bg-body-tertiary fixed-top">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Parametro de itens</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Carreira Tech</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                  <a class="nav-link " href="#">Home</a>
+                </li>             
+               
+                <li class="nav-item">
+                    <input type="text">
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Equipamento</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Familia</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Modelo</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Prestador</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Responsável</a>
+                  </li>
+
+                  <br><br>
+
+                  <li class="nav-item">
+                   
+                  </li>
+              </ul>
+             
+            </div>
+          </div>
+        </div>
+      </nav>
+        <br><br>
+    <div class="container">
+        <!-- <h1>Carreira Tech</h1> -->
+        <button id="addItemButton">Novo</button>
+        <br />
+        <div class="filter">
+            <input type="text" id="filterInput" placeholder="Buscar por Item">
+            <button id="filterButton">Buscar</button>
+        </div>
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Nível de Gravidade</th>
+                    <th>Dias para Resolução</th>
+                    <th>Status</th>
+                    <th>Data da Última Edição</th>
+                    <th>Nome do Editor</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="itemList">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-popup" id="formPopup">
+        <div class="form-title" id="formTitle">Novo</div>
+        <form id="crudForm">
+            <div class="form-group">
+                <label for="item">Item</label>
+                <input type="text" id="item" placeholder="Item" required>
+            </div>
+            <div class="form-group">
+                <label for="severity">Nível de Gravidade</label>
+                <select id="severity" required>
+                    <option value="">Selecione</option>
+                    <option value="Alto">Alto</option>
+                    <option value="Médio">Médio</option>
+                    <option value="Baixo">Baixo</option>
+             
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="days">Dias para Resolução</label>
+                <input type="number" id="days" placeholder="Dias para Resolução" min="1" required>
+            </div>
+            <div class="form-group">
+                <label  for="status">Status</label>
+                <label class="toggle-switch">
+                    <input  type="checkbox" id="status">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label  for="editor">Nome do Editor</label>
+                <input  type="text" id="editor" placeholder="Nome do Editor" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit">Salvar</button>
+                <button type="button" id="closeFormButton">Cancelar</button>
+            </div>
+        </form>
+    </div>
+    <div class="overlay" id="overlay"></div>
+
+    <footer>Developed by Jéssika Teodoro</footer>
+
+    <script>
+
+
+            if(!sessionStorage.getItem('userTech')){
+                sessionStorage.setItem('userTech' , 'Jessica')
+            }
+
+            usuario = sessionStorage.getItem('userTech');
+
+
+        const addItemButton = document.getElementById('addItemButton');
+        const formPopup = document.getElementById('formPopup');
+        const overlay = document.getElementById('overlay');
+        const form = document.getElementById('crudForm');
+        const itemList = document.getElementById('itemList');
+        const filterInput = document.getElementById('filterInput');
+        const filterButton = document.getElementById('filterButton');
+        const closeFormButton = document.getElementById('closeFormButton');
+        const dataTable = document.getElementById('dataTable');
+        const formTitle = document.getElementById('formTitle');
+
+        let editIndex = null;
+
+        const items = JSON.parse(localStorage.getItem('crudItems')) || [];
+
+        function openForm(title) {
+            form.reset();
+            formTitle.textContent = title;
+            formPopup.classList.add('active');
+            overlay.classList.add('active');
+        }
+
+        function closeForm() {
+            formPopup.classList.remove('active');
+            overlay.classList.remove('active');
+            editIndex = null;
+        }
+
+        function renderItems() {
+            const filterText = filterInput.value.toLowerCase();
+            itemList.innerHTML = '';
+            const filteredItems = items.filter(item => item.name.toLowerCase().includes(filterText));
+
+            filteredItems.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>${item.severity}</td>
+                    <td>${item.days}</td>
+                    <td>
+                            <div class="form-check form-switch centralizar alinhar">
+                            <input  class="form-check-input some" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked onchange="hideRow(${index})">
+                            <label  class="form-check-label" for="flexSwitchCheckChecked"></label>
+                            </div>    
+                    </td>
+                    <td>${item.date}</td>
+                    <td>${item.editor}</td>
+                    <td class="actions-buttons">
+                        <button onclick="editItem(${index})">Editar</button>
+                        <button onclick="deleteItem(${index})">Excluir</button>
+                    </td>
+                `;
+                itemList.appendChild(row);
+            });
+
+            dataTable.style.display = filteredItems.length ? 'table' : 'none';
+            saveToLocalStorage();
+        }
+
+
+        // function hideRow(valor){
+        //     alert(valor)
+        //     var linha = valor.parentNode.parentNode;
+        //     if(valor.checked){
+        //         // alert('ligado')
+        //         linha.classList.remove('disabled')
+        //     }else{
+        //         // alert('desligado')
+        //         linha.classList.add('disabled')
+        //     }
+        // }
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const now = new Date().toLocaleString();
+
+            const newItem = {
+                name: document.getElementById('item').value.trim(),
+                severity: document.getElementById('severity').value.trim(),
+                days: document.getElementById('days').value.trim(),
+                status: document.getElementById('status').checked,
+                date: now,
+                // editor: usuario
+                editor: document.getElementById('editor').value.trim(),
+            };
+
+            if (editIndex !== null) {
+                items[editIndex] = newItem;
+            } else {
+                items.push(newItem);
+            }
+
+            closeForm();
+            renderItems();
+        });
+
+        filterButton.addEventListener('click', renderItems);
+        filterInput.addEventListener('input', renderItems);
+
+        addItemButton.addEventListener('click', () => openForm('Novo'));
+        closeFormButton.addEventListener('click', closeForm);
+        overlay.addEventListener('click', closeForm);
+
+        window.editItem = function (index) {
+            editIndex = index;
+            const item = items[index];
+
+            document.getElementById('item').value = item.name;
+            document.getElementById('severity').value = item.severity;
+            document.getElementById('days').value = item.days;
+            document.getElementById('status').checked = item.status;
+            document.getElementById('editor').value = item.editor;
+
+            openForm('Editar');
+        };
+
+        window.deleteItem = function (index) {
+            if (confirm('Tem certeza que deseja excluir este item?')) {
+                items.splice(index, 1);
+                renderItems();
+            }
+        };
+
+        function saveToLocalStorage() {
+            localStorage.setItem('crudItems', JSON.stringify(items));
+        }
+
+        renderItems();
+    </script>
+</body>
+</html>
