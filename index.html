@@ -222,6 +222,12 @@
             background: none;
             color: black;
         }
+
+        .logo{
+            color: white;
+            width: 50px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -238,13 +244,21 @@
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
+                <h1 class="logo">mobyan</h1>
               <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                 <li class="nav-item">
                   <a class="nav-link " href="#">Home</a>
                 </li>             
                
                   <li class="nav-item">
-                    <input type="text">
+                    <Select onchange="changeUser()" id="userSelect">
+                        <option value="" >Usuários cadastrados</option>
+                        <option value="Jessica">Jessica</option>
+                        <option value="Mariane">Mariane</option>
+                        <option value="Ricardo">Ricardo</option>
+                        <option value="Ermenegildo">Ermenegildo</option>
+                        <option value="Samante">Samanta</option>
+                    </Select>
                   </li>
                   <hr>
                  
@@ -338,8 +352,8 @@
                 </label>
             </div>
             <div class="form-group">
-                <label  for="editor">Nome do Editor</label>
-                <input  type="text" id="editor" placeholder="Nome do Editor" required>
+                <!-- <label  for="editor">Nome do Editor</label> -->
+                <input style="display: none;"  type="text" id="editor" placeholder="Nome do Editor" value="logado" >
             </div>
             <div class="form-actions">
                 <button type="submit">Salvar</button>
@@ -356,6 +370,16 @@
 
             if(!sessionStorage.getItem('userTech')){
                 sessionStorage.setItem('userTech' , 'Jessica')
+            }
+
+
+            function changeUser(){
+                let userSelect = document.getElementById('userSelect').value
+             
+                sessionStorage.setItem('userTech' , userSelect)
+
+                    location.href = 'index.html'
+
             }
 
             usuario = sessionStorage.getItem('userTech');
@@ -437,20 +461,14 @@
         }
 
 
-        // function hideRow(valor){
-        //     alert(valor)
-        //     var linha = valor.parentNode.parentNode;
-        //     if(valor.checked){
-        //         // alert('ligado')
-        //         linha.classList.remove('disabled')
-        //     }else{
-        //         // alert('desligado')
-        //         linha.classList.add('disabled')
-        //     }
-        // }
+        
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
+            let usuarioLogado = document.getElementById('editor').value.trim()
+            if(usuarioLogado === "logado"){
+                logando = usuario
+            }
             const now = new Date().toLocaleString();
 
             const newItem = {
@@ -459,10 +477,11 @@
                 days: document.getElementById('days').value.trim(),
                 status: document.getElementById('status').checked,
                 date: now,
-                // editor: usuario
-                editor: document.getElementById('editor').value.trim(),
+                editor: logando
+                // editor: document.getElementById('editor').value.trim(),
+                
             };
-
+           
             if (editIndex !== null) {
                 items[editIndex] = newItem;
             } else {
