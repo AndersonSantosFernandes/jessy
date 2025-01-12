@@ -52,9 +52,9 @@
             cursor: pointer;
         }
 
-        .filter button:hover {
+        /* .filter button:hover {
             background: #263C11;
-        }
+        } */
 
         button {
             padding: 10px 20px;
@@ -65,9 +65,9 @@
             cursor: pointer;
         }
 
-        button:hover {
+        /* button:hover {
             background: #4d722b;
-        }
+        } */
 
         table {
             width: 100%;
@@ -228,6 +228,15 @@
            font-size: 80px;
             font-weight: bold;
         }
+
+        
+    
+    </style>
+     <style id="styleShow" >
+        .hideColumn{
+            display: none;
+            padding: 15px;           
+        }
     </style>
 </head>
 <body>
@@ -305,7 +314,7 @@
 
         <br><br>
         <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onchange="information()" >
+            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onchange="hideColuna()" >
             <label  class="form-check-label" for="flexSwitchCheckChecked">Visualizar mais detalhes</label>
         </div>
 
@@ -317,8 +326,8 @@
                     <th>Nível de Gravidade</th>
                     <th>Dias para Resolução</th>
                     <th>Status</th>
-                    <th>Data da Última Edição</th>
-                    <th>Nome do Editor</th>
+                    <th class="hideColumn">Data da Última Edição</th>
+                    <th class="hideColumn">Nome do Editor</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -392,6 +401,36 @@
             logado.innerHTML = `Olá, ${usuario}`
 
 
+            function hideColuna(){
+    let showInformation = document.getElementById("flexSwitchCheckChecked")
+    
+    if(showInformation.checked == true){ 
+       
+       let estilo = document.getElementById("styleShow")
+       estilo.innerHTML = 
+       `
+       .hideColumn{
+          display: "";
+             
+             margin-left: 40px;
+      }
+       `
+    }else{
+      
+       let estilo = document.getElementById("styleShow")
+       estilo.innerHTML = 
+       `
+       .hideColumn{
+          display: none;
+          
+      }
+       `
+    }
+ }
+
+
+
+
         const addItemButton = document.getElementById('addItemButton');
         const formPopup = document.getElementById('formPopup');
         const overlay = document.getElementById('overlay');
@@ -437,8 +476,8 @@
                             <label  class="form-check-label" for="flexSwitchCheckChecked"></label>
                             </div>    
                     </td>
-                    <td>${item.date}</td>
-                    <td>${item.editor}</td>
+                    <td class="hideColumn">${item.date}</td>
+                    <td class="hideColumn">${item.editor}</td>
                     <td class="actions-buttons">
                         <button class="transparente" onclick="editItem(${index})">
                             
