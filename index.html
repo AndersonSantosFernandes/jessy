@@ -228,7 +228,9 @@
            font-size: 80px;
             font-weight: bold;
         }
-
+        .resolucao{
+            text-align: center;
+        }
         
     
     </style>
@@ -324,7 +326,7 @@
                 <tr>
                     <th>Item</th>
                     <th>Nível de Gravidade</th>
-                    <th>Dias para Resolução</th>
+                    <th class="resolucao">Dias para Resolução</th>
                     <th>Status</th>
                     <th class="hideColumn">Data da Última Edição</th>
                     <th class="hideColumn">Nome do Editor</th>
@@ -469,7 +471,7 @@
                 row.innerHTML = `
                     <td>${item.name}</td>
                     <td>${item.severity}</td>
-                    <td>${item.days}</td>
+                    <td class="resolucao">${item.days}</td>
                     <td>
                             <div class="form-check form-switch centralizar alinhar">
                             <input  class="form-check-input some" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked onchange="hideRow(${index})">
