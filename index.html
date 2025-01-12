@@ -225,7 +225,7 @@
 
         .logo{
             color: white;
-            width: 50px;
+           font-size: 80px;
             font-weight: bold;
         }
     </style>
@@ -244,11 +244,8 @@
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-                <h1 class="logo">mobyan</h1>
-              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                <li class="nav-item">
-                  <a class="nav-link " href="#">Home</a>
-                </li>             
+                <p class="logo">mobyan</p>
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">        
                
                   <li class="nav-item">
                     <Select onchange="changeUser()" id="userSelect">
@@ -344,7 +341,7 @@
                 <label for="days">Dias para Resolução</label>
                 <input type="number" id="days" placeholder="Dias para Resolução" min="1" required>
             </div>
-            <div class="form-group">
+            <div style="display: none ;" class="form-group">
                 <label  for="status">Status</label>
                 <label class="toggle-switch">
                     <input  type="checkbox" id="status">
